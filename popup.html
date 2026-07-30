@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spring Boot Exposure Scanner</title>
+<link rel="stylesheet" href="popup.css">
+</head>
+<body>
+<div class="app">
+
+  <header class="hero">
+    <div class="brand">
+      <div class="brand-mark">SB</div>
+      <div>
+        <div class="eyebrow">SPRING BOOT / ACTUATOR</div>
+        <h1>Exposure Scanner</h1>
+        <div id="target" class="target">Detecting active tab…</div>
+      </div>
+    </div>
+    <div class="hero-actions">
+      <button id="refresh" class="icon-btn" title="Refresh">↻</button>
+      <button id="settingsTop" class="icon-btn" title="Settings">⚙</button>
+    </div>
+  </header>
+
+  <section class="hero-card" id="technologyCard">
+    <div class="tech-main">
+      <div class="status-ring" id="statusRing"><span id="statusDot"></span></div>
+      <div class="tech-copy">
+        <div class="section-kicker">TECHNOLOGY</div>
+        <div class="tech-title" id="techTitle">Unknown</div>
+        <div class="tech-sub" id="techReason">Waiting for fingerprint…</div>
+      </div>
+      <div class="confidence" id="confidence">—</div>
+    </div>
+    <div class="signal-row" id="signals"></div>
+  </section>
+
+  <section class="controls-card">
+    <div class="controls-top">
+      <div>
+        <div class="section-title">Scanner</div>
+        <div class="muted" id="modeText">Automatic scan is enabled</div>
+      </div>
+      <label class="switch-wrap" title="Automatic scan">
+        <input id="autoScan" type="checkbox">
+        <span class="switch"></span>
+      </label>
+    </div>
+
+    <div class="control-row">
+      <select id="autoMode" class="select">
+        <option value="smart">Automatic · Smart</option>
+        <option value="full">Automatic · Full wordlist</option>
+      </select>
+      <select id="severityFilter" class="select">
+        <option value="all">All severities</option>
+        <option value="critical">Critical</option>
+        <option value="high">High</option>
+        <option value="medium">Medium</option>
+        <option value="low">Low</option>
+        <option value="info">Info</option>
+      </select>
+    </div>
+
+    <div class="button-row">
+      <button id="scanPriority" class="btn primary">Scan Priority</button>
+      <button id="scanFull" class="btn">Full Wordlist</button>
+      <button id="stop" class="btn danger hidden">Stop</button>
+    </div>
+
+    <div class="progress-track"><span id="progressBar"></span></div>
+    <div class="progress-meta">
+      <span id="progressText">Idle</span>
+      <span id="progressPercent">0%</span>
+    </div>
+  </section>
+
+  <section class="stats-grid">
+    <div class="stat-card critical"><div id="critical" class="stat-num">0</div><div class="stat-label">Critical</div></div>
+    <div class="stat-card high"><div id="high" class="stat-num">0</div><div class="stat-label">High</div></div>
+    <div class="stat-card medium"><div id="medium" class="stat-num">0</div><div class="stat-label">Medium</div></div>
+    <div class="stat-card"><div id="low" class="stat-num">0</div><div class="stat-label">Low</div></div>
+    <div class="stat-card"><div id="hits" class="stat-num">0</div><div class="stat-label">Findings</div></div>
+    <div class="stat-card secret"><div id="secretsCount" class="stat-num">0</div><div class="stat-label">Secrets</div></div>
+  </section>
+
+  <section class="section-card">
+    <div class="section-head">
+      <div>
+        <div class="section-title">Scan intelligence</div>
+        <div class="muted">Evidence gathered from the active host</div>
+      </div>
+    </div>
+    <div class="intel-grid">
+      <div><span>Wordlist</span><b id="wordlistCount">—</b></div>
+      <div><span>Requests</span><b id="requestCount">0</b></div>
+      <div><span>Phase</span><b id="phase">Idle</b></div>
+      <div><span>Transport errors</span><b id="transportErrors">0</b></div>
+      <div><span>Target origin</span><b id="origin">—</b></div>
+      <div><span>Protocol</span><b id="protocol">—</b></div>
+    </div>
+    <div id="lastError" class="diagnostic hidden"></div>
+  </section>
+
+  <section class="section-card">
+    <div class="section-head">
+      <div>
+        <div class="section-title">Detection signals</div>
+        <div class="muted">Why Spring Boot was identified</div>
+      </div>
+    </div>
+    <div id="signalDetails" class="signal-details empty-box">
+      No strong technology signals yet.
+    </div>
+  </section>
+
+  <section class="section-card">
+    <div class="section-head">
+      <div>
+        <div class="section-title">Findings</div>
+        <div id="resultMeta" class="muted">0 visible</div>
+      </div>
+      <button id="collapseFindings" class="tiny-btn">Collapse</button>
+    </div>
+    <div id="results" class="results"></div>
+  </section>
+
+  <section class="section-card">
+    <div class="section-head">
+      <div>
+        <div class="section-title">Secrets / sensitive configuration</div>
+        <div class="muted">Raw values are never displayed</div>
+      </div>
+      <div id="secretState" class="pill neutral">Enabled</div>
+    </div>
+    <div id="secretResults" class="results"></div>
+  </section>
+
+  <section class="section-card">
+    <div class="section-head">
+      <div>
+        <div class="section-title">Current page evidence</div>
+        <div class="muted">Passive fingerprint from the rendered document</div>
+      </div>
+    </div>
+    <div id="pageEvidence" class="evidence">
+      <div class="empty-box">No current-page evidence.</div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <button id="exportJson" class="link-btn">Export JSON</button>
+    <button id="exportCsv" class="link-btn">Export CSV</button>
+    <button id="clear" class="link-btn">Clear</button>
+    <button id="settingsBottom" class="link-btn">Settings</button>
+  </footer>
+</div>
+<script src="popup.js"></script>
+</body>
+</html>

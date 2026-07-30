@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spring Boot Exposure Scanner — Settings</title>
+<style>
+:root{--preview-font-size:16px}
+body{font-family:Inter,system-ui,sans-serif;background:#0b1020;color:#e7ecf5;margin:0;padding:32px;font-size:var(--preview-font-size)}
+main{max-width:760px;margin:auto}
+h1{font-size:26px;margin:0 0 6px}.muted{color:#8f9bb2;font-size:12px}
+.card{background:#10182b;border:1px solid #1f2a40;border-radius:16px;padding:18px;margin:14px 0}
+.row{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:10px 0;border-bottom:1px solid #1f2a40}.row:last-child{border:0}
+select,input{background:#0b1221;color:#e7ecf5;border:1px solid #334155;border-radius:8px;padding:8px}
+button{background:#1d4ed8;color:#fff;border:0;border-radius:9px;padding:9px 14px;font-weight:800;cursor:pointer}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:#bfdbfe}
+.warning{color:#fbbf24;font-size:12px;line-height:1.5}
+body .muted{font-size:calc(var(--preview-font-size) * .78)}
+body .warning{font-size:calc(var(--preview-font-size) * .78)}
+body select,body input,body button{font-size:calc(var(--preview-font-size) * .82)}
+body h1{font-size:calc(var(--preview-font-size) * 1.65)}
+</style></head>
+<body><main>
+<h1>Spring Boot Exposure Scanner</h1>
+<div class="muted">Detection, scan safety, alert typography and storage settings.</div>
+<div class="card">
+  <div class="row"><div><b>Automatic scan mode</b><div class="muted">Triggered after a page navigation completes.</div></div>
+    <select id="autoMode"><option value="smart">Smart priority</option><option value="full">Full wordlist</option></select></div>
+  <div class="row"><div><b>Spring Boot alert font size</b><div class="muted">Base font size for the entire scanner UI. All labels, buttons, cards and evidence scale with this value.</div></div>
+    <select id="fontSizePx">
+      <option value="12">12 px</option>
+      <option value="13">13 px</option>
+      <option value="14">14 px</option>
+      <option value="15">15 px</option>
+      <option value="16">16 px</option>
+      <option value="17">17 px</option>
+      <option value="18">18 px</option>
+      <option value="20">20 px</option>
+      <option value="22">22 px</option>
+      <option value="24">24 px</option>
+    </select></div>
+  <div class="row"><div><b>Secret / credential scanning</b><div class="muted">Scans captured response text for credential-like values and sensitive configuration.</div></div>
+    <input id="secretScan" type="checkbox"></div>
+  <div class="row"><div><b>Concurrency</b><div class="muted">Maximum simultaneous requests.</div></div><input id="concurrency" type="number" min="1" max="12"></div>
+  <div class="row"><div><b>Delay between requests</b><div class="muted">Milliseconds per worker; lower is noisier.</div></div><input id="delayMs" type="number" min="0" max="2000"></div>
+  <div class="row"><div><b>Timeout</b><div class="muted">Per-request timeout in milliseconds.</div></div><input id="timeoutMs" type="number" min="1000" max="30000"></div>
+  <div class="row"><div><b>Advanced path variants</b><div class="muted">Semicolon, encoding, traversal and wildcard variants.</div></div><input id="advanced" type="checkbox"></div>
+  <div class="row"><div><b>Persist scan history</b><div class="muted">Keep the last 30 scans locally.</div></div><input id="persist" type="checkbox"></div>
+</div>
+<div class="card"><div class="warning"><b>Safety design:</b> the extension bundles the complete uploaded wordlist, but the scanner executes only GET, HEAD and OPTIONS. State-changing methods from the source list are retained as data and are not sent.</div></div>
+<button id="save">Save settings</button> <span id="saved" class="muted"></span>
+</main>
+<script src="options.js"></script></body></html>

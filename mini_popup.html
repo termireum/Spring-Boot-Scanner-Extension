@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spring Boot Scanner</title>
+  <link rel="stylesheet" href="mini_popup.css">
+</head>
+<body>
+  <main class="app">
+    <header class="top">
+      <div>
+        <div class="eyebrow">SPRING BOOT SCANNER</div>
+        <div class="title">Host status</div>
+      </div>
+      <div id="statusDot" class="dot"></div>
+    </header>
+
+    <section id="techCard" class="card tech">
+      <div class="row">
+        <span class="label">Technology</span>
+        <span id="techBadge" class="badge neutral">UNKNOWN</span>
+      </div>
+      <div id="techReason" class="reason">Waiting for page detection…</div>
+      <div id="target" class="target">No active HTTP(S) tab</div>
+    </section>
+
+    <section class="card stats">
+      <div class="stat">
+        <div id="findingCount" class="num">0</div>
+        <div class="small">Findings</div>
+      </div>
+      <div class="stat">
+        <div id="criticalCount" class="num critical">0</div>
+        <div class="small">Critical</div>
+      </div>
+      <div class="stat">
+        <div id="secretCount" class="num secret">0</div>
+        <div class="small">Secrets</div>
+      </div>
+    </section>
+
+    <section class="actions">
+      <button id="scanSmart" class="btn primary">Scan Priority</button>
+      <button id="scanFull" class="btn">Full Wordlist</button>
+      <button id="stop" class="btn danger hidden">Stop</button>
+    </section>
+
+    <div class="progress">
+      <span id="bar"></span>
+    </div>
+    <div class="meta">
+      <span id="progressText">Idle</span>
+      <span id="entries">—</span>
+    </div>
+
+    <footer>
+      <button id="settings" class="link">Settings</button>
+      <button id="export" class="link">Export JSON</button>
+    </footer>
+  </main>
+  <script src="mini_popup.js"></script>
+</body>
+</html>
